@@ -1,0 +1,13 @@
+{
+  "name": "teacherdigitalagency",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "setup-tailwind": "npm install -D tailwindcss && npx tailwind init",
+    "build-tailwind": "npx tailwindcss -i ./Styles/site.css -o ./wwwroot/css/site.css"
+  },
+  "private": true,
+  "devDependencies": {
+    "tailwindcss": "^3.3.6"
+  }
+}
