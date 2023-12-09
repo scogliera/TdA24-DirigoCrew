@@ -4,6 +4,6 @@ namespace TeacherDigitalAgency.Models;
 
 public class Tag
 {
-    [JsonPropertyName("uuid")] public required string Uuid { get; init; }
+    [JsonPropertyName("uuid")] public Guid Uuid { get; init; } = Guid.NewGuid();
     [JsonPropertyName("name")] public required string Name { get; set; }
 }

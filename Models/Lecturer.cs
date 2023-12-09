@@ -4,8 +4,13 @@ namespace TeacherDigitalAgency.Models;
 
 public class Lecturer
 {
-    // TODO: Find out how UUIDs get generated -> C# or Mongo solution
-    [JsonPropertyName("uuid")] public string Uuid { get; init; }
+    public Lecturer(string firstName, string lastName)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+    }
+    
+    [JsonPropertyName("uuid")] public Guid Uuid { get; init; } = Guid.NewGuid();
     [JsonPropertyName("title_before")] public string? TitleBefore { get; set; }
     [JsonPropertyName("first_name")] public required string FirstName { get; set; }
     [JsonPropertyName("middle_name")] public string? MiddleName { get; set; }
