@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TeacherDigitalAgency.DAL;
 using TeacherDigitalAgency.Models;
 
 namespace TeacherDigitalAgency.Controllers;
@@ -8,10 +9,12 @@ namespace TeacherDigitalAgency.Controllers;
 public class TdaApiController: ControllerBase
 {
     private readonly ILogger<TdaApiController> _logger;
+    private readonly IMongoDal _mongoDal;
 
-    public TdaApiController(ILogger<TdaApiController> logger)
+    public TdaApiController(ILogger<TdaApiController> logger, IMongoDal mongoDal)
     {
-        _logger = logger;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _mongoDal = mongoDal ?? throw new ArgumentNullException(nameof(mongoDal));
     }
     
     [HttpGet("/api")]
