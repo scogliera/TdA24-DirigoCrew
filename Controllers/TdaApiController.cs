@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TeacherDigitalAgency.DAL;
 using TeacherDigitalAgency.Models;
 
 namespace TeacherDigitalAgency.Controllers;
@@ -8,10 +9,12 @@ namespace TeacherDigitalAgency.Controllers;
 public class TdaApiController: ControllerBase
 {
     private readonly ILogger<TdaApiController> _logger;
+    private readonly IMongoDal _mongoDal;
 
-    public TdaApiController(ILogger<TdaApiController> logger)
+    public TdaApiController(ILogger<TdaApiController> logger, IMongoDal mongoDal)
     {
-        _logger = logger;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _mongoDal = mongoDal ?? throw new ArgumentNullException(nameof(mongoDal));
     }
     
     [HttpGet("/api")]
@@ -40,92 +43,78 @@ public class TdaApiController: ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("/prikladvseho/{vek:int}")]
-    public ActionResult<IEnumerable<string>> PrikladVseho([FromRoute] int vek, [FromBody] Lecturer lecturer)
-    {
-        var anotherLecturer = new Lecturer
-        {
-            FirstName = "Jozef",
-            LastName = "Novák",
-            TitleBefore = "Ing."
-        };
-        
-        var informationList = new List<string>();
-        
-        informationList.Add($"{lecturer.FirstName} má {vek} let.");
-        informationList.Add($"Jeho ID je {lecturer.Uuid}");
-        informationList.Add($"{lecturer.FirstName} má kamaráda {anotherLecturer.FirstName} {anotherLecturer.LastName}");
-        
-        return Ok(informationList);
-    }
-
-
-    // zde pravděpodobně začnou problémy --zw
-
+//======
+    
     [HttpPost("/lecturers")]
-    public ActionResult<string> AddLecturer()
+    public ActionResult<string> AddLecturer([FromBody] Lecturer lecturer)
     {
-        /*
-            VLOŽIT PŘIDÁVÁNÍ DO DATABÁZE
-        */ 
+        _mongoDal.AddLecturer(lecturer);
         _logger.LogDebug("Post - Lecturer Add");
 
-        return Ok();
+        return Ok("Lecturer přidán");
     }
 
     [HttpGet("/lecturers")]
     public ActionResult<IEnumerable<Lecturer>> GetLecturers()
     {
-
-        /*
-            VLOŽIT ČTENÍ Z DATABÁZE (všichni lektoři)
-        */
+        IEnumerable<Lecturer> lecturer = _mongoDal.GetAllLecturers();
         _logger.LogDebug("Get - Lecturer Get All");
 
-        return Ok();
+        return Ok(lecturer);
     }
 
     [HttpGet("/lecturers/{uuid}")]
-    public ActionResult<Lecturer> GetLecturerWithUUID([FromRoute] string uuid, [FromBody] Lecturer lecturer)
+    public ActionResult<Lecturer> GetLecturerWithUUID([FromRoute] string uuid)
     {
-        Lecturer Lecturer = lecturer;
-        /*
-            VLOŽIT ČTENÍ Z DATABÁZE (lektor pomocí uuid)
-        */
+        Lecturer? lecturer;
         _logger.LogDebug("Get - Lecturer Get UUID");
+        
+        try
+        { lecturer = _mongoDal.GetLecturer(new Guid(uuid)); }
+        catch
+        { return NotFound("UUID nenalezeno"); }
 
-        return Ok(Lecturer);
-
-        // TAKÉ VLOŽIT 404 HANDLING
+        return Ok(lecturer);
     }
 
     [HttpPut("/lecturers/{uuid}")]
-    public ActionResult<string> AddLecturerWithUUID([FromRoute] string uuid, [FromBody] Lecturer lecturer)
+    public ActionResult<string> AddLecturerWithUUID([FromBody] Lecturer lecturerNew)
     {
-        Lecturer Lecturer = lecturer;
-        /*
-            VLOŽIT PŘIDÁVÁNÍ DO DATABÁZE POMOCÍ UUID
-            "Pokud existuje pole v DB, ale neexistuje v těle požadavku, zůstane jeho hodnota v DB nezměněna."
-        */ 
         _logger.LogDebug("Put - Lecturer Add/Edit With UUID");
+        
+        try         //"Pokud existuje pole v DB, ale neexistuje v těle požadavku, zůstane jeho hodnota v DB nezměněna."
+        {           
+            /*      //pokud bude třeba filtrovat input
+            Lecturer? lecturerChecked = _mongoDal.GetLecturer(lecturerNew.Uuid);
+            string empty = "string"; //prázdná (defaultní) hodnota, která nebude přepisována
 
-        return Ok(Lecturer);
+            if(lecturerNew.TitleBefore != empty) { lecturerChecked.TitleBefore = lecturerNew.TitleBefore; }
+            if(lecturerNew.FirstName != empty) { lecturerChecked.FirstName = lecturerNew.FirstName; }
+            if(lecturerNew.MiddleName != empty) { lecturerChecked.MiddleName = lecturerNew.MiddleName; }
+            if(lecturerNew.LastName != empty) { lecturerChecked.LastName = lecturerNew.LastName; }
+            if(lecturerNew.TitleAfter != empty) { lecturerChecked.TitleAfter = lecturerNew.TitleAfter; }
+            if(lecturerNew.PictureUrl != empty) { lecturerChecked.PictureUrl = lecturerNew.PictureUrl; }
+            if(lecturerNew.Location != empty) { lecturerChecked.Location = lecturerNew.Location; }
+            if(lecturerNew.Claim != empty) { lecturerChecked.Claim = lecturerNew.Claim; }
+            if(lecturerNew.Bio != empty) { lecturerChecked.Bio = lecturerNew.Bio; }*/
+        
+            _mongoDal.SetLecturer(lecturerNew);
+        }
+        catch
+        { return NotFound("UUID nenalezeno"); }
 
-        // TAKÉ VLOŽIT 404 HANDLING
+        return Ok("Lecturer nastaven");
     }
 
     [HttpDelete("/lecturers/{uuid}")]
     public ActionResult<string> DeleteLecturerWithUUID([FromRoute] string uuid)
     {
-        /*
-            VLOŽIT DELETOVÁNÍ Z DATABÁZE POMOCÍ UUID
-        */ 
         _logger.LogDebug("Delete - Lecturer Delete With UUID");
+        
+        try{ _mongoDal.DeleteLecturer(new Guid(uuid)); }
+        catch{ return NotFound("UUID nenalezeno"); }
 
         return NoContent(); //kód 204, jako podle JSONu
-
-        // TAKÉ VLOŽIT 404 HANDLING
     }
-
 
 }

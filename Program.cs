@@ -1,3 +1,5 @@
+using TeacherDigitalAgency.DAL;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
@@ -6,6 +8,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddControllers();
 builder.Services.AddAntDesign();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IMongoDal, MongoDal>();
 
 var app = builder.Build();
 

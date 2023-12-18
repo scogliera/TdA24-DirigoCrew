@@ -1,9 +1,11 @@
 ﻿using System.Text.Json.Serialization;
+using MongoDB.Bson;
 
 namespace TeacherDigitalAgency.Models;
 
 public class Lecturer
 {
+    [JsonIgnore] public ObjectId? _id { get; init; }
     [JsonPropertyName("uuid")] public Guid Uuid { get; init; } = Guid.NewGuid();
     [JsonPropertyName("title_before")] public string? TitleBefore { get; set; }
     [JsonPropertyName("first_name")] public required string FirstName { get; set; }
