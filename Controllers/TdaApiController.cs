@@ -43,7 +43,7 @@ public class TdaApiController: ControllerBase
         return Ok(result);
     }
 
-//======
+//====== nové requesty zde \/
     
     [HttpPost("/lecturers")]
     public ActionResult<string> AddLecturer([FromBody] Lecturer lecturer)
@@ -78,14 +78,14 @@ public class TdaApiController: ControllerBase
     }
 
     [HttpPut("/lecturers/{uuid}")]
-    public ActionResult<string> AddLecturerWithUUID([FromBody] Lecturer lecturerNew)
+    public ActionResult<string> AddLecturerWithUUID([FromBody] Lecturer lecturerNew, [FromRoute] string uuid)
     {
         _logger.LogDebug("Put - Lecturer Add/Edit With UUID");
         
         try         //"Pokud existuje pole v DB, ale neexistuje v těle požadavku, zůstane jeho hodnota v DB nezměněna."
         {           
-            /*      //pokud bude třeba filtrovat input
-            Lecturer? lecturerChecked = _mongoDal.GetLecturer(lecturerNew.Uuid);
+                  //pokud bude třeba filtrovat input
+            /*Lecturer? lecturerChecked = _mongoDal.GetLecturer(lecturerNew.Uuid);
             string empty = "string"; //prázdná (defaultní) hodnota, která nebude přepisována
 
             if(lecturerNew.TitleBefore != empty) { lecturerChecked.TitleBefore = lecturerNew.TitleBefore; }
@@ -97,13 +97,13 @@ public class TdaApiController: ControllerBase
             if(lecturerNew.Location != empty) { lecturerChecked.Location = lecturerNew.Location; }
             if(lecturerNew.Claim != empty) { lecturerChecked.Claim = lecturerNew.Claim; }
             if(lecturerNew.Bio != empty) { lecturerChecked.Bio = lecturerNew.Bio; }*/
-        
-            _mongoDal.SetLecturer(lecturerNew);
+            
+            _mongoDal.SetLecturer(lecturerNew, new Guid(uuid));
         }
         catch
         { return NotFound("UUID nenalezeno"); }
 
-        return Ok("Lecturer nastaven");
+        return Ok("Lecturer nastaven, pokud existoval");
     }
 
     [HttpDelete("/lecturers/{uuid}")]
