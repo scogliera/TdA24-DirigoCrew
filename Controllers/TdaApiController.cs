@@ -18,9 +18,9 @@ public class TdaApiController: ControllerBase
     }
     
     [HttpGet("/api")]
-    public ActionResult<Dictionary<string, string>> OnGet()
+    public ActionResult<Dictionary<string, string>> OnBaseApiCall()
     {
-        _logger.LogDebug("Base api endpoint called");
+        _logger.LogDebug("[GET] Base /api called");
         
         var result = new Dictionary<string, string>
         {
@@ -29,92 +29,98 @@ public class TdaApiController: ControllerBase
 
         return Ok(result);
     }
-    
-    [HttpPost("/api")]
-    public ActionResult<Dictionary<string, string>> OnPost()
-    {
-        _logger.LogDebug("Base api post endpoint called");
-        
-        var result = new Dictionary<string, string>
-        {
-            { "secret", "The cake is a lie" }
-        };
-
-        return Ok(result);
-    }
-
-//====== nové requesty zde \/
     
     [HttpPost("/lecturers")]
     public ActionResult<string> AddLecturer([FromBody] Lecturer lecturer)
     {
-        _mongoDal.AddLecturer(lecturer);
-        _logger.LogDebug("Post - Lecturer Add");
-
-        return Ok("Lecturer přidán");
+        _logger.LogDebug("[POST] AddLecturer called");
+        
+        try
+        {
+            _mongoDal.AddLecturer(lecturer);
+            return Ok("Lecturer přidán");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
+            return Problem(statusCode: 500);
+        }
     }
 
     [HttpGet("/lecturers")]
-    public ActionResult<IEnumerable<Lecturer>> GetLecturers()
+    public ActionResult<IEnumerable<Lecturer>> GetAllLecturers()
     {
-        IEnumerable<Lecturer> lecturer = _mongoDal.GetAllLecturers();
-        _logger.LogDebug("Get - Lecturer Get All");
-
-        return Ok(lecturer);
+        _logger.LogDebug("[GET] GetAllLecturers called");
+        
+        try
+        {
+            var lecturers = _mongoDal.GetAllLecturers();
+            return Ok(lecturers);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
+            return Problem(statusCode: 500);
+        }
     }
 
     [HttpGet("/lecturers/{uuid}")]
-    public ActionResult<Lecturer> GetLecturerWithUUID([FromRoute] string uuid)
+    public ActionResult<Lecturer> GetLecturerByUuid([FromRoute] string uuid)
     {
-        Lecturer? lecturer;
-        _logger.LogDebug("Get - Lecturer Get UUID");
-        
-        try
-        { lecturer = _mongoDal.GetLecturer(new Guid(uuid)); }
-        catch
-        { return NotFound("UUID nenalezeno"); }
+        _logger.LogDebug("[GET] GetLecturerByUuid called");
 
-        return Ok(lecturer);
+        try
+        {
+            var lecturer = _mongoDal.GetLecturer(new Guid(uuid));
+            if (lecturer == null)
+                return NotFound("Lecturer nenalezen - UUID");
+
+            return Ok(lecturer);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
+            return Problem(statusCode: 500);
+        }
     }
 
     [HttpPut("/lecturers/{uuid}")]
-    public ActionResult<string> AddLecturerWithUUID([FromBody] Lecturer lecturerNew, [FromRoute] string uuid)
+    public ActionResult<string> AddLecturerByUuid([FromBody] Lecturer lecturerNew, [FromRoute] string uuid)
     {
-        _logger.LogDebug("Put - Lecturer Add/Edit With UUID");
-        
-        try         //"Pokud existuje pole v DB, ale neexistuje v těle požadavku, zůstane jeho hodnota v DB nezměněna."
-        {           
-                  //pokud bude třeba filtrovat input
-            /*Lecturer? lecturerChecked = _mongoDal.GetLecturer(lecturerNew.Uuid);
-            string empty = "string"; //prázdná (defaultní) hodnota, která nebude přepisována
+        _logger.LogDebug("[PUT] AddLecturerByUuid called");
 
-            if(lecturerNew.TitleBefore != empty) { lecturerChecked.TitleBefore = lecturerNew.TitleBefore; }
-            if(lecturerNew.FirstName != empty) { lecturerChecked.FirstName = lecturerNew.FirstName; }
-            if(lecturerNew.MiddleName != empty) { lecturerChecked.MiddleName = lecturerNew.MiddleName; }
-            if(lecturerNew.LastName != empty) { lecturerChecked.LastName = lecturerNew.LastName; }
-            if(lecturerNew.TitleAfter != empty) { lecturerChecked.TitleAfter = lecturerNew.TitleAfter; }
-            if(lecturerNew.PictureUrl != empty) { lecturerChecked.PictureUrl = lecturerNew.PictureUrl; }
-            if(lecturerNew.Location != empty) { lecturerChecked.Location = lecturerNew.Location; }
-            if(lecturerNew.Claim != empty) { lecturerChecked.Claim = lecturerNew.Claim; }
-            if(lecturerNew.Bio != empty) { lecturerChecked.Bio = lecturerNew.Bio; }*/
-            
+        try
+        {
             _mongoDal.SetLecturer(lecturerNew, new Guid(uuid));
+            return Ok("Lecturer nastaven, pokud existoval");
         }
-        catch
-        { return NotFound("UUID nenalezeno"); }
-
-        return Ok("Lecturer nastaven, pokud existoval");
+        catch(Exception ex)
+        {
+            _logger.LogError("Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
+            
+            //TODO: Odlišovat error u nás od nenalezena (Problem x NotFound)
+            //return Problem(statusCode: 500);
+            return NotFound("UUID nenalezeno");
+        }
     }
 
     [HttpDelete("/lecturers/{uuid}")]
-    public ActionResult<string> DeleteLecturerWithUUID([FromRoute] string uuid)
+    public ActionResult<string> DeleteLecturerByUuid([FromRoute] string uuid)
     {
-        _logger.LogDebug("Delete - Lecturer Delete With UUID");
-        
-        try{ _mongoDal.DeleteLecturer(new Guid(uuid)); }
-        catch{ return NotFound("UUID nenalezeno"); }
+        _logger.LogDebug("[DELETE] DeleteLecturerByUuid called");
 
-        return NoContent(); //kód 204, jako podle JSONu
+        try
+        {
+            var success = _mongoDal.DeleteLecturer(new Guid(uuid));
+            if (!success)
+                return NotFound("Lecturer nenalezen - UUID");
+            
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
+            return Problem(statusCode: 500);
+        }
     }
-
 }
