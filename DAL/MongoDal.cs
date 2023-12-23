@@ -31,9 +31,9 @@ public class MongoDal: IMongoDal
         return _lecturersCollection.Find(_ => true).ToEnumerable();
     }
 
-    public void SetLecturer(Lecturer lecturer)
+    public void SetLecturer(Lecturer lecturer, Guid uuid)
     {
-        var filter = Builders<Lecturer>.Filter.Eq(l => l.Uuid, lecturer.Uuid);
+        var filter = Builders<Lecturer>.Filter.Eq(l => l.Uuid, uuid);
         var update = Builders<Lecturer>.Update
             .Set(l => l.TitleBefore, lecturer.TitleBefore)
             .Set(l => l.FirstName, lecturer.FirstName)
