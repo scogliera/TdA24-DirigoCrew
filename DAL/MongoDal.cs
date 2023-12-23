@@ -53,6 +53,7 @@ public class MongoDal: IMongoDal
 
     public bool DeleteLecturer(Guid id)
     {
+        // TODO: Refactor return value - distinguish NotFound, Error and Success
         var deleteResult = _lecturersCollection.DeleteOne(lecturer => lecturer.Uuid == id);
         return deleteResult.DeletedCount > 0 && deleteResult.IsAcknowledged;
     }
