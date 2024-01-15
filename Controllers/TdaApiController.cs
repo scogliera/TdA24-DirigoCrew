@@ -96,7 +96,7 @@ public class TdaApiController: ControllerBase
             switch(result)
             {
                 case DBResult.Success:
-                    return Ok("Lecturer nastaven, pokud existoval");
+                    return Ok("Lecturer nastaven");
                 case DBResult.NotFound:
                     return NotFound("UUID nenalezeno");
                 default: //aka Error
@@ -118,11 +118,17 @@ public class TdaApiController: ControllerBase
 
         try
         {
-            var result = _mongoDal.DeleteLecturer(new Guid(uuid));
-            if (result != DBResult.Success)
-                return NotFound("Lecturer nenalezen - UUID");
+            DBResult result = _mongoDal.DeleteLecturer(new Guid(uuid));
             
-            return NoContent();
+            switch(result)
+            {
+                case DBResult.Success:
+                    return NoContent(); //má to házet NoContent místo Ok
+                case DBResult.NotFound:
+                    return NotFound("UUID nenalezeno");
+                default: //aka Error
+                    return Problem(statusCode: 500);
+            }
         }
         catch (Exception ex)
         {

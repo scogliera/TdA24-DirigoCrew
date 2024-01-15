@@ -26,7 +26,6 @@ public class MongoDal: IMongoDal
 
     public Lecturer? GetLecturer(Guid id)
     {
-        
         return _lecturersCollection.Find(lecturer => lecturer.Uuid == id).FirstOrDefault();
     }
 
@@ -61,8 +60,11 @@ public class MongoDal: IMongoDal
             else
                 return DBResult.NotFound;
         }
-        catch
-        { return DBResult.Error; }
+        catch(Exception ex)
+        {
+            _logger.LogError("SetLecturer Error - Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
+            return DBResult.Error; 
+        }
     }
 
     public DBResult DeleteLecturer(Guid id) // našlo/úspěch, nenašlo, selhalo
@@ -76,8 +78,11 @@ public class MongoDal: IMongoDal
             else
                 return DBResult.Success; 
         }
-        catch
-        { return DBResult.Error; }
+        catch(Exception ex)
+        {
+            _logger.LogError("DeleteLecturer Error - Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
+            return DBResult.Error; 
+        }
     }
 
     public DBResult AddLecturer(Lecturer lecturer) // úspěch, neúspěch
@@ -87,8 +92,11 @@ public class MongoDal: IMongoDal
             _lecturersCollection.InsertOne(lecturer);
             return DBResult.Success;
         }
-        catch
-        { return DBResult.Error; }
+        catch(Exception ex)
+        { 
+            _logger.LogError("AddLecturer Error - Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
+            return DBResult.Error; 
+        }
     }
 }
 
