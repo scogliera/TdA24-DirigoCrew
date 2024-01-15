@@ -6,7 +6,7 @@ public interface IMongoDal
 {
     public Lecturer? GetLecturer(Guid id);
     public IEnumerable<Lecturer> GetAllLecturers();
-    public void SetLecturer(Lecturer lecturer, Guid uuid);
-    public bool DeleteLecturer(Guid id);
-    public void AddLecturer(Lecturer lecturer);
+    public DBResult SetLecturer(Lecturer lecturer, Guid uuid);
+    public DBResult DeleteLecturer(Guid id);
+    public DBResult AddLecturer(Lecturer lecturer);
 }

@@ -91,17 +91,24 @@ public class TdaApiController: ControllerBase
 
         try
         {
-            _mongoDal.SetLecturer(lecturerNew, new Guid(uuid));
-            return Ok("Lecturer nastaven, pokud existoval");
+            DBResult result = _mongoDal.SetLecturer(lecturerNew, new Guid(uuid));
+            
+            switch(result)
+            {
+                case DBResult.Success:
+                    return Ok("Lecturer nastaven, pokud existoval");
+                case DBResult.NotFound:
+                    return NotFound("UUID nenalezeno");
+                default: //aka Error
+                    return Problem(statusCode: 500);
+            }
         }
         catch(Exception ex)
         {
             _logger.LogError("Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
-            
-            //TODO: Odlišovat error u nás od nenalezena (Problem x NotFound)
-            //return Problem(statusCode: 500);
-            return NotFound("UUID nenalezeno");
+            return Problem(statusCode: 500);
         }
+
     }
 
     [HttpDelete("/lecturers/{uuid}")]
@@ -111,8 +118,8 @@ public class TdaApiController: ControllerBase
 
         try
         {
-            var success = _mongoDal.DeleteLecturer(new Guid(uuid));
-            if (!success)
+            var result = _mongoDal.DeleteLecturer(new Guid(uuid));
+            if (result != DBResult.Success)
                 return NotFound("Lecturer nenalezen - UUID");
             
             return NoContent();
