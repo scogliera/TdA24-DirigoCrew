@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeacherDigitalAgency.DAL;
+using TeacherDigitalAgency.Data;
 using TeacherDigitalAgency.Models;
 
 namespace TeacherDigitalAgency.Controllers;
@@ -91,17 +92,20 @@ public class TdaApiController: ControllerBase
 
         try
         {
-            _mongoDal.SetLecturer(lecturerNew, new Guid(uuid));
-            return Ok("Lecturer nastaven, pokud existoval");
+            var result = _mongoDal.SetLecturer(lecturerNew, new Guid(uuid));
+            return result switch
+            {
+                DbResult.Success => Ok("Lecturer nastaven"),
+                DbResult.NotFound => NotFound("UUID nenalezeno"),
+                _ => Problem(statusCode: 500)
+            };
         }
         catch(Exception ex)
         {
             _logger.LogError("Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
-            
-            //TODO: Odlišovat error u nás od nenalezena (Problem x NotFound)
-            //return Problem(statusCode: 500);
-            return NotFound("UUID nenalezeno");
+            return Problem(statusCode: 500);
         }
+
     }
 
     [HttpDelete("/lecturers/{uuid}")]
@@ -111,11 +115,13 @@ public class TdaApiController: ControllerBase
 
         try
         {
-            var success = _mongoDal.DeleteLecturer(new Guid(uuid));
-            if (!success)
-                return NotFound("Lecturer nenalezen - UUID");
-            
-            return NoContent();
+            var result = _mongoDal.DeleteLecturer(new Guid(uuid));
+            return result switch
+            {
+                DbResult.Success => NoContent(),
+                DbResult.NotFound => NotFound("UUID nenalezeno"),
+                _ => Problem(statusCode: 500)
+            };
         }
         catch (Exception ex)
         {
