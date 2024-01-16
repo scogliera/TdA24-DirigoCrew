@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using TeacherDigitalAgency.Data;
 using TeacherDigitalAgency.Models;
 
 namespace TeacherDigitalAgency.DAL;
@@ -8,9 +9,10 @@ public class MongoDal: IMongoDal
     private readonly IMongoCollection<Lecturer> _lecturersCollection;
     private readonly ILogger<MongoDal> _logger;
 
-
     public MongoDal(IConfiguration configuration, ILogger<MongoDal> logger)
     {
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        
         if (configuration == null)
             throw new ArgumentNullException(nameof(configuration));
 
@@ -21,7 +23,6 @@ public class MongoDal: IMongoDal
 
         var client = new MongoClient(settings);
         _lecturersCollection = client.GetDatabase("tda-db").GetCollection<Lecturer>("lecturers");
-        _logger = logger;
     }
 
     public Lecturer? GetLecturer(Guid id)
@@ -34,7 +35,7 @@ public class MongoDal: IMongoDal
         return _lecturersCollection.Find(_ => true).ToEnumerable();
     }
 
-    public DBResult SetLecturer(Lecturer lecturer, Guid uuid) // našlo/úspěch, nenašlo, selhalo
+    public DbResult SetLecturer(Lecturer lecturer, Guid uuid)
     {
         try
         {
@@ -55,54 +56,46 @@ public class MongoDal: IMongoDal
 
             var result = _lecturersCollection.UpdateOne(filter, update);
       
-            if (result.MatchedCount >= 0)
-                return DBResult.Success; 
-            else
-                return DBResult.NotFound;
+            if (result.MatchedCount <= 0)
+                return DbResult.NotFound;
+            
+            return DbResult.Success; 
         }
         catch(Exception ex)
         {
             _logger.LogError("SetLecturer Error - Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
-            return DBResult.Error; 
+            return DbResult.Error; 
         }
     }
 
-    public DBResult DeleteLecturer(Guid id) // našlo/úspěch, nenašlo, selhalo
+    public DbResult DeleteLecturer(Guid id)
     {
         try
         {
             var result = _lecturersCollection.DeleteOne(lecturer => lecturer.Uuid == id);
-
             if (result.DeletedCount <= 0)
-                return DBResult.NotFound;
-            else
-                return DBResult.Success; 
+                return DbResult.NotFound;
+                
+            return DbResult.Success; 
         }
         catch(Exception ex)
         {
             _logger.LogError("DeleteLecturer Error - Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
-            return DBResult.Error; 
+            return DbResult.Error; 
         }
     }
 
-    public DBResult AddLecturer(Lecturer lecturer) // úspěch, neúspěch
+    public DbResult AddLecturer(Lecturer lecturer)
     {
         try
         {
             _lecturersCollection.InsertOne(lecturer);
-            return DBResult.Success;
+            return DbResult.Success;
         }
         catch(Exception ex)
         { 
             _logger.LogError("AddLecturer Error - Message: {message}, StackTrace: {stackTrace}", ex.Message, ex.StackTrace);
-            return DBResult.Error; 
+            return DbResult.Error; 
         }
     }
-}
-
-public enum DBResult 
-{
-    Success,
-    NotFound,
-    Error
 }
