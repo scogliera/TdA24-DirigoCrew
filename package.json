@@ -6,8 +6,17 @@
     "setup-tailwind": "npm install -D tailwindcss && npx tailwind init",
     "build-tailwind": "npx tailwindcss -i ./Styles/site.css -o ./wwwroot/css/site.css"
   },
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "faiss-node": "^0.2.1",
+    "langchain": "^0.0.96",
+    "mongodb": "^5.9.2",
+    "openai": "^3.3.0"
+  },
   "private": true,
   "devDependencies": {
+    "eslint": "^8.56.0",
     "tailwindcss": "^3.3.6"
   }
 }

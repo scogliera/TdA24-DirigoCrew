@@ -16,7 +16,7 @@
   /* 2 */
   border-style: solid;
   /* 2 */
-  border-color: #e5e7eb;
+  border-color: currentColor;
   /* 2 */
 }
 
@@ -540,24 +540,202 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.fixed {
+  position: fixed;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.left-0 {
+  left: 0px;
+}
+
+.right-0 {
+  right: 0px;
+}
+
+.top-0 {
+  top: 0px;
+}
+
+.-z-10 {
+  z-index: -10;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+.z-\[60\] {
+  z-index: 60;
+}
+
 .m-auto {
   margin: auto;
+}
+
+.ml-3 {
+  margin-left: 0.75rem;
+}
+
+.mt-24 {
+  margin-top: 6rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
 }
 
 .mt-6 {
   margin-top: 1.5rem;
 }
 
+.mt-8 {
+  margin-top: 2rem;
+}
+
 .flex {
   display: flex;
+}
+
+.h-10 {
+  height: 2.5rem;
+}
+
+.h-2 {
+  height: 0.5rem;
+}
+
+.h-40 {
+  height: 10rem;
+}
+
+.h-\[23\] {
+  height: 23;
+}
+
+.h-full {
+  height: 100%;
 }
 
 .h-screen {
   height: 100vh;
 }
 
+.w-1\/2 {
+  width: 50%;
+}
+
+.w-28 {
+  width: 7rem;
+}
+
+.w-3\/5 {
+  width: 60%;
+}
+
+.w-40 {
+  width: 10rem;
+}
+
+.w-\[70\%\] {
+  width: 70%;
+}
+
+.w-\[95\] {
+  width: 95;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.appearance-none {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-br-3xl {
+  border-bottom-right-radius: 1.5rem;
+}
+
+.rounded-tl-3xl {
+  border-top-left-radius: 1.5rem;
+}
+
+.bg-TDAblue {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 56 77 / var(--tw-bg-opacity));
+}
+
+.bg-TDAgrey {
+  --tw-bg-opacity: 1;
+  background-color: rgb(51 51 51 / var(--tw-bg-opacity));
+}
+
+.bg-TDAyellow {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 203 46 / var(--tw-bg-opacity));
+}
+
+.bg-\[url\(\'\/TDACustomKruh\.png\'\)\] {
+  background-image: url('/TDACustomKruh.png');
+}
+
+.bg-\[url\(\'\/stock1\.png\'\)\] {
+  background-image: url('/stock1.png');
+}
+
+.bg-contain {
+  background-size: contain;
+}
+
+.bg-cover {
+  background-size: cover;
+}
+
+.bg-right {
+  background-position: right;
+}
+
+.bg-no-repeat {
+  background-repeat: no-repeat;
+}
+
+.p-3 {
+  padding: 0.75rem;
+}
+
+.pt-1 {
+  padding-top: 0.25rem;
+}
+
 .text-center {
   text-align: center;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .text-4xl {
@@ -582,14 +760,21 @@ video {
   letter-spacing: -0.025em;
 }
 
-.text-gray-600 {
+.text-white {
   --tw-text-opacity: 1;
-  color: rgb(75 85 99 / var(--tw-text-opacity));
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.text-gray-900 {
-  --tw-text-opacity: 1;
-  color: rgb(17 24 39 / var(--tw-text-opacity));
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #blazor-error-ui {
@@ -619,6 +804,20 @@ video {
 
 .blazor-error-boundary::after {
   content: "An error has occurred."
+}
+
+.hover\:bg-TDAyellow:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 203 46 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-TDAyellowDark:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(214 170 40 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-\[url\(\'\/TDACustomKruh2\.png\'\)\]:hover {
+  background-image: url('/TDACustomKruh2.png');
 }
 
 @media (min-width: 640px) {
