@@ -1,10 +1,76 @@
 ﻿@page "/"
+@using System.ComponentModel.DataAnnotations
+@using TeacherDigitalAgency.DAL
+@inject IMongoDal MongoDal
 
 <PageTitle>Teacher Digital Agency</PageTitle>
 
-<Content Class="flex h-screen">
-    <div class="text-center m-auto">
-        <Header Class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Hello TdA</Header>
-        <Paragraph Class="mt-6 text-lg leading-8 text-gray-600">Educating the Future. Teacher Digital Agency - Expanding the Horizons of Learning. Currently Under Construction, Return Soon to Change the Way You Learn!</Paragraph>
-    </div>
+<Content Class="bg-index-filler mb-4">
+    <section class="bg-index-hero bg-no-repeat h-[150vh]" style="background-size: 100vw;">
+        <Col Span="14" Offset="1" Class="h-screen flex">
+            <div class="text-center m-auto">
+                <h1 class="text-8xl font-bold"><span class="text-TdaGrey">Teacher</span> <span class="text-TdaCyan text-outline">Digital</span> <span class="text-white text-outline">Agency</span></h1>
+                <Paragraph Class="text-2xl mt-2"><span class="text-TdaGrey">„Prvním krokem na cestě ke štěstí je učení se.“</span><span class="text-TdaCyan"> ~ Dalajláma</span></Paragraph>
+                <button class="transition ease-in-out outline outline-1 rounded-md px-6 py-2 bg-white text-TdaGrey text-xl hover:bg-TdaCyan" type="button">Hledat lektory</button>
+            </div>
+        </Col>
+    </section>
+    
+    <!-- O nás -->
+    <section>
+        <div class="m-auto w-screen min-h-[75vh] h-fit">
+            <div class="mt-20 ml-20 outline outline-1 rounded-md w-1/2 h-1/2 text-4xl font-lalezar">
+                <div class="transform -translate-x-10 -translate-y-6 w-1/4 text-center outline outline-1 rounded-md bg-white"><span class=" font-lalezar text-5xl"><p>Kdo jsme?</p></span></div>
+                <p class="ml-2 mt-4">Teacher digital Agency je mladá společnost zaměřená na vyhledávání špičkových odborníků z řad učitelů, lektorů a tutorů. </p>
+                
+                <p class="ml-2 mt-8">Sestavujeme exkluzivní databázi těchto specialistů, abychom mohli efektivně propojovat klienty s ideálními odborníky dle jejich přání a specifických potřeb. </p>
+                
+                <p class="ml-2 mt-8">Vaše vzdělávání je u nás v dobrých rukou.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Generated lecturers -->
+    <section>
+        <Row Class="mt-8">
+                <Col Offset="2" Span="20">
+                    <Row>
+                        <Col Class="ml-10">
+                            <p class="text-2xl font-bold">Naší učitelé...</p>
+                        </Col>
+                    </Row>
+                    
+                    <Row Class="mt-2">
+                        @foreach (var lecturer in _lecturers)
+                        {
+                            <div class="col ml-10">
+                                <LecturerTag LecturerModel="@lecturer" />
+                            </div>
+                        }
+                    </Row>
+                </Col>
+            </Row>
+    </section>
 </Content>
+@code {
+
+    public class Model
+    {
+        [Required]
+        public string Name { get; set; }
+        public string Subject { get; set; }
+        public string City { get; set; }
+        public int From { get; set; }
+        public int To { get; set; }
+    }
+
+    private readonly Model _model = new();
+    
+    private IEnumerable<Models.Lecturer> _lecturers = new List<Models.Lecturer>();
+    
+    protected override Task OnInitializedAsync()
+    {
+        _lecturers = MongoDal.GetAllLecturers();
+        return base.OnInitializedAsync();
+    }
+}

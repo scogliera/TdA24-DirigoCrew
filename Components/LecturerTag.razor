@@ -1,0 +1,26 @@
+﻿@using TeacherDigitalAgency.Models
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager Navigation
+
+<div class="w-fit min-h-[21rem] h-fit min-w-52 rounded-md overflow-hidden shadow-lg pb-2 outline outline-1 outline-TdaCyan">
+    <img class="w-full h-44 object-cover" src="@LecturerModel.PictureUrl" alt="Obrázek učitele nenalezen...">
+    
+    <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">@LecturerModel.FirstName @LecturerModel.LastName[0].</div>
+        <p class="text-gray-700 text-base">@LecturerModel.PricePerHour kč / hod.</p>
+    </div>
+    
+    <div class="w-full relative pt-4 pb-2">
+        <a href="/Lecturer/@LecturerModel.Uuid" class="absolute left-[50%] -translate-x-[50%] bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @onclick="@Callback">Zobrazit</a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Lecturer LecturerModel { get; set; }
+    
+    private async Task Callback(MouseEventArgs obj)
+    {
+        Navigation.NavigateTo($"/Lecturer/{LecturerModel.Uuid}", true);
+    }
+}

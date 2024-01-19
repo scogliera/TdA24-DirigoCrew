@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AntDesign" Version="0.16.3" />
+      <PackageReference Include="AntDesign" Version="0.17.3" />
       <PackageReference Include="MongoDB.Driver" Version="2.23.1" />
       <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
