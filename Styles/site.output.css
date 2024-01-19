@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.3.6 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -32,9 +32,11 @@
 4. Use the user's configured `sans` font-family by default.
 5. Use the user's configured `sans` font-feature-settings by default.
 6. Use the user's configured `sans` font-variation-settings by default.
+7. Disable tap highlights on iOS
 */
 
-html {
+html,
+:host {
   line-height: 1.5;
   /* 1 */
   -webkit-text-size-adjust: 100%;
@@ -44,12 +46,14 @@ html {
   -o-tab-size: 4;
      tab-size: 4;
   /* 3 */
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* 4 */
   font-feature-settings: normal;
   /* 5 */
   font-variation-settings: normal;
   /* 6 */
+  -webkit-tap-highlight-color: transparent;
+  /* 7 */
 }
 
 /*
@@ -584,6 +588,10 @@ video {
   margin-top: 6rem;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
 .mt-6 {
   margin-top: 1.5rem;
 }
@@ -592,16 +600,16 @@ video {
   margin-top: 2rem;
 }
 
-.mt-4 {
-  margin-top: 1rem;
-}
-
 .flex {
   display: flex;
 }
 
 .h-10 {
   height: 2.5rem;
+}
+
+.h-2 {
+  height: 0.5rem;
 }
 
 .h-40 {
@@ -620,16 +628,16 @@ video {
   height: 100vh;
 }
 
-.h-2 {
-  height: 0.5rem;
-}
-
 .w-1\/2 {
   width: 50%;
 }
 
 .w-28 {
   width: 7rem;
+}
+
+.w-3\/5 {
+  width: 60%;
 }
 
 .w-40 {
@@ -646,10 +654,6 @@ video {
 
 .w-full {
   width: 100%;
-}
-
-.w-3\/5 {
-  width: 60%;
 }
 
 .cursor-pointer {
@@ -682,6 +686,11 @@ video {
   border-top-left-radius: 1.5rem;
 }
 
+.bg-TDAblue {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 56 77 / var(--tw-bg-opacity));
+}
+
 .bg-TDAgrey {
   --tw-bg-opacity: 1;
   background-color: rgb(51 51 51 / var(--tw-bg-opacity));
@@ -690,11 +699,6 @@ video {
 .bg-TDAyellow {
   --tw-bg-opacity: 1;
   background-color: rgb(254 203 46 / var(--tw-bg-opacity));
-}
-
-.bg-TDAblue {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 56 77 / var(--tw-bg-opacity));
 }
 
 .bg-\[url\(\'\/TDACustomKruh\.png\'\)\] {

@@ -1,0 +1,193 @@
+
+    {
+      "uuid": "490e6805-0bf8-4cff-812b-deb5267acc80",
+      "title_before": "Ing.",
+      "first_name": "Jan",
+      "middle_name": "Ahmed",
+      "last_name": "Novák",
+      "title_after": "Judr",
+      "picture_url": "https://tourdeapp.cz/storage/images/2023_02_25/412ff296a291f021bbb6de10e8d0b94863fa89308843b/big.png.webp",
+      "location": "Ostrava",
+      "claim": "Get Good, Get Jan Novák!",
+      "bio": "Lecturer, Influencer, Entrepreneur",
+      "tags": [
+        {
+          "uuid": "e9b439fc-1ede-4352-b1be-94785c8abc8a",
+          "name": "cool"
+        },
+        {
+          "uuid": "7729078b-f445-4074-9dd1-dbaca109b665",
+          "name": "quirky"
+        }
+      ],
+      "price_per_hour": 100,
+      "contact": {
+        "telephone_numbers": [
+          "+420 123 456 789"
+        ],
+        "emails": [
+          "novak@tda.cz"
+        ]
+      }
+    },
+    {
+        "uuid": "3fa85f64-5717-4532-b2dc-2c662e76afd6",
+        "title_before": "Mgr.",
+        "first_name": "Iohan",
+        "middle_name": "Amos",
+        "last_name": "Comenius",
+        "title_after": "",
+        "picture_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Jan_Amos_Comenius_%28Komensky%29_%281592-1670%29._Tsjechisch_humanist_en_pedagoog._Als_voorganger_van_de_Moravische_of_Boheemse_Broedergemeente_verdreven_en_sedert_1656_gevestigd_te_Amsterdam_Rijksmuseum_SK-A-2161.jpeg/520px-thumbnail.jpeg?20140728182833",
+        "location": "Praha",
+        "claim": "původem Moravan, jazykem Čech a povoláním teolog",
+        "bio": "Pedagog, Philosopher, Teologist",
+        "tags": [
+            {
+              "uuid": "e9b439fc-1ede-4352-b1be-94785c8abc8a",
+              "name": "cool"
+            },
+            {
+              "uuid": "7729078b-f445-4074-9dd1-dbaca109b665",
+              "name": "quirky"
+            }
+        ],
+        "price_per_hour": 420,
+        "contact": {
+          "telephone_numbers": [
+            "+420 122 233 344"
+          ],
+          "emails": [
+            "jan.amos@comenius.cz"
+          ]
+        }
+      },
+      {
+        "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "title_before": "Ing.",
+        "first_name": "Evžen",
+        "middle_name": "Alias",
+        "last_name": "Alsas",
+        "title_after": "JuDr.",
+        "picture_url": "",
+        "location": "Ústí nad Labem",
+        "claim": "Kámo já jsem borec!",
+        "bio": "Komediant, Promt Engineer",
+        "tags": [
+          {
+            "uuid": "3fa85f64-5717-4532-b3fc-2c963166afa5",
+            "name": "horrible"
+          },
+          {
+            "uuid": "7729078b-f445-4074-9dd1-dbaca109b665",
+            "name": "quirky"
+          },
+          {
+            "uuid": "7719078b-c445-4074-9ed1-dbaca109b665",
+            "name": "joke"
+          }
+        ],
+        "price_per_hour": 999,
+        "contact": {
+          "telephone_numbers": [
+            "+420 321 654 987"
+          ],
+          "emails": [
+            "ja.vubec@nevim.cz"
+          ]
+        }
+      },
+      {
+        "uuid": "194e6801-0bf8-4cff-812b-deb5267adc20",
+        "title_before": "",
+        "first_name": "Karel",
+        "middle_name": "John",
+        "last_name": "Snědlho",
+        "title_after": "",
+        "picture_url": "",
+        "location": "Ostrava",
+        "claim": "My teaching methods may be extreme, and some of you may die, but that's a sacrifice I'm willing to make.",
+        "bio": "Lecturer, Experimental Surgeon, War Veteran",
+        "tags": [
+          {
+            "uuid": "e9b439fc-1ede-4352-b1be-94785c8abc8a",
+            "name": "cool"
+          },
+          {
+            "uuid": "3fa85f64-5717-4532-b3fc-2c963166afa5",
+            "name": "horrible"
+          },
+          {
+            "uuid": "3fb85d64-5717-4532-b1ec-2c963156afa5",
+            "name": "dangerous"
+          }
+        ],
+        "price_per_hour": 30,
+        "contact": {
+          "telephone_numbers": [
+            "+420 388 277 177"
+          ],
+          "emails": [
+            "john@snedlho.cz"
+          ]
+        }
+      },
+      {
+        "uuid": "290e5805-2bd8-4cdf-812b-deb5267acc80",
+        "title_before": "Mgr.",
+        "first_name": "Saul",
+        "middle_name": "George",
+        "last_name": "Malý",
+        "title_after": "",
+        "picture_url": "",
+        "location": "Brno",
+        "claim": "Teacher first and foremost.",
+        "bio": "Lecturer, Teacher, Engineer",
+        "tags": [
+          {
+            "uuid": "e5b419fc-1ede-4357-b1ee-94785c7bbd2a",
+            "name": "smart"
+          },
+          {
+            "uuid": "7729078b-f445-4074-9dd1-dbaca109b665",
+            "name": "quirky"
+          }
+        ],
+        "price_per_hour": 250,
+        "contact": {
+          "telephone_numbers": [
+            "+420 433 270 985"
+          ],
+          "emails": [
+            "malysaul@exam.cz"
+          ]
+        }
+      },
+      {
+        "uuid": "491e6815-0ba8-4caf-822b-deb6667acc80",
+        "title_before": "Mgr.",
+        "first_name": "George",
+        "middle_name": "",
+        "last_name": "Sully",
+        "title_after": "Judr",
+        "picture_url": "",
+        "location": "Praha",
+        "claim": "Judge who teaches sometimes",
+        "bio": "Judge, Part-time Lecturer",
+        "tags": [
+            {
+                "uuid": "e5b419fc-1ede-4357-b1ee-94785c7bbd2a",
+                "name": "smart"
+              }
+        ],
+        "price_per_hour": 300,
+        "contact": {
+          "telephone_numbers": [
+            "+420 123 456 777"
+          ],
+          "emails": [
+            "georgesully@gmail.com"
+          ]
+        }
+      }
+
+    

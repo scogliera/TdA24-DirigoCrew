@@ -7,7 +7,7 @@ import { CharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { FaissStore } from "langchain/vectorstores/faiss";
 
-const loader = new TextLoader("./testdoc.txt");
+const loader = new TextLoader("./DBData.json");
 
 const docs = await loader.load();
 

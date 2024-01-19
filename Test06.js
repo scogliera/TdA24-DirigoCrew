@@ -2,9 +2,9 @@
 import { config } from "dotenv";
 config();
 
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { FaissStore } from "langchain/vectorstores/faiss";
-import { OpenAI } from "langchain/llms/openai";
+import { OpenAIEmbeddings } from "@langchain/openai";
+import { FaissStore } from "@langchain/community/vectorstores/faiss";
+import { OpenAI } from "@langchain/openai";
 import { RetrievalQAChain, loadQAStuffChain } from "langchain/chains";
 
 const embeddings = new OpenAIEmbeddings();
@@ -14,11 +14,11 @@ const model = new OpenAI({ temperature: 0,  modelName : "gpt-3.5-turbo"  });
 
 const chain = new RetrievalQAChain({
     combineDocumentsChain: loadQAStuffChain(model),
-    retriever: vectorStore.asRetriever(),
+    retriever: vectorStore.asRetriever(1),
     returnSourceDocuments: true,
 });
 
-const res = await chain.call({
-    query: "When does the restaurant open on friday?",
+const res = await chain.invoke({
+    query: "Which lecturer would you choose for someone with a low budget?",
 });
 console.log(res.text);
